@@ -3,6 +3,7 @@
 	<name>Safely Hidden Away</name>
 	<author>Uuugggg</author>
 	<targetVersion>0.18.0</targetVersion>
-	<description>Bases that are in remote locations don't get raided as often</description>
+	<description>Bases that are in remote locations don't get raided as often.
+Configurable delay time. Check out that graph.</description>
 	<url>https://steamcommunity.com/id/Uuugggg/myworkshopfiles/?appid=294100</url>
 </ModMetaData>

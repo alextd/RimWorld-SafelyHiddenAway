@@ -255,3 +255,4 @@ paket-files/
 __pycache__/
 *.pyc
 /Assemblies/Safely_Hidden_Away.dll
+/About/About.xml
