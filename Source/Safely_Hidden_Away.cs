@@ -15,7 +15,7 @@ namespace Safely_Hidden_Away
 #if DEBUG
 			HarmonyInstance.DEBUG = true;
 #endif
-			HarmonyInstance harmony = HarmonyInstance.Create("uuugggg.rimworld.SmartMedicine.main");
+			HarmonyInstance harmony = HarmonyInstance.Create("uuugggg.rimworld.SafelyHiddenAway.main");
 			harmony.PatchAll(Assembly.GetExecutingAssembly());
 
 			harmony.Patch(AccessTools.Property(typeof(StoryState), nameof(StoryState.LastThreatBigTick)).GetGetMethod(false),

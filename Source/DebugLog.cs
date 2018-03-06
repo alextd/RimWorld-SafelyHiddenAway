@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SmartMedicine
+namespace Safely_Hidden_Away
 {
 	static class Log
 	{
