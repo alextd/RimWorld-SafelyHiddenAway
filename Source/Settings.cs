@@ -29,7 +29,7 @@ namespace Safely_Hidden_Away
 			distanceFactor = options.Slider(distanceFactor, .05f, .5f);
 
 			options.Label("How much remoteness delays theats: " + String.Format("{0:0.0}x", threatDiminshingFactor));
-			threatDiminshingFactor = options.Slider(threatDiminshingFactor, 0, 5);
+			threatDiminshingFactor = options.Slider(threatDiminshingFactor, 0.1f, 5);
 
 			//draw graph
 			float gw = Text.LineHeight * 10;
