@@ -40,7 +40,8 @@ namespace Safely_Hidden_Away
 					float addedDays = AddedDays(cost);
 					if (Settings.Get().logResults)
 					{
-						Verse.Log.Message(String.Format("Safely Hidden Away delayed threats to " + mapName + " by {0:0.0} days.", addedDays));
+						string date = GenDate.QuadrumDateStringAt(GenTicks.TicksGame, 0);
+						Verse.Log.Message(String.Format("On {0}, Safely Hidden Away delayed threats to {1} by {2:0.0} days.", date, mapName, addedDays));
 					}
 
 					FieldInfo lastThreatBigTickInfo = AccessTools.Field(typeof(StoryState), "lastThreatBigTick");
