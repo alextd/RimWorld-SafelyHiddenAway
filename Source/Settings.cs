@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using Verse;
+using RimWorld;
+using Harmony;
 
 namespace Safely_Hidden_Away
 {
@@ -85,6 +88,30 @@ namespace Safely_Hidden_Away
 				point = next;
 			}
 			Widgets.DrawBox(graphRect);
+
+			if(Prefs.DevMode || HarmonyInstance.DEBUG)	//That's one roundabout way to check DEBUG
+			{
+				int gameTicks = GenTicks.TicksGame;
+				options.Gap();
+				options.Label("Game Ticks : " + gameTicks);
+
+				FieldInfo lastThreatBigTickInfo = AccessTools.Field(typeof(StoryState), "lastThreatBigTick");
+				
+				Map map = Find.VisibleMap;
+				int lastThreatTick = (int)lastThreatBigTickInfo.GetValue(map.storyState);
+				options.Label(map.info.parent.LabelShortCap);
+				options.Label("Big Threats delayed until at least " + lastThreatTick);
+
+				float days = GenDate.TicksToDays(lastThreatTick - gameTicks);
+				if(days >= 0)
+				{
+					options.Label("(" + days + " days in future)");
+				}
+				if (options.ButtonText("Reset To NOW"))
+				{
+					lastThreatBigTickInfo.SetValue(map.StoryState, GenTicks.TicksGame);
+				}
+			}
 
 			Text.Anchor = anchor;
 			options.End();
