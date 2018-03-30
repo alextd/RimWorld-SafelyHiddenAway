@@ -254,5 +254,5 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
-/Assemblies/Safely_Hidden_Away.dll
+/Assemblies/*
 /About/About.xml
