@@ -12,12 +12,12 @@ namespace Safely_Hidden_Away
 {
 	class DelayDays
 	{
-		public static float DelayAllyDays(Map map) => DaysTo(map, f => !f.IsPlayer && !f.HostileTo(Faction.OfPlayer));
+		public static float DelayAllyDays(Map map) => DaysTo(map, f => f!= null && !f.IsPlayer && !f.HostileTo(Faction.OfPlayer));
 		public static float DelayRaidDays(Map map) => DaysTo(map, f => f.HostileTo(Faction.OfPlayer));
-		public static float DaysTo(Map map, Func<Faction, bool> predicate)
+		public static float DaysTo(Map map, Func<Faction, bool> factionValidator)
 		{
 			int tile = map.Tile;
-			Predicate<int> validator = (int t) => Find.World.worldObjects.ObjectsAt(t).Select(wo => wo.Faction).Any(predicate);
+			Predicate<int> validator = (int t) => Find.World.worldObjects.ObjectsAt(t).Select(wo => wo.Faction).Any(factionValidator);
 			if (GenWorldClosest.TryFindClosestTile(tile, validator, out int foundTile, int.MaxValue, false))
 			{
 				WorldPath path = Find.WorldPathFinder.FindPath(tile, foundTile, null);
