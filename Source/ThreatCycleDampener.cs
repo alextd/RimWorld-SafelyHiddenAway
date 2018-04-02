@@ -25,41 +25,21 @@ namespace Safely_Hidden_Away
 			if (qi.parms.target is Map map
 				&& (qi.def.category == IncidentCategory.ThreatBig || qi.def.category == IncidentCategory.RaidBeacon))
 			{
-				int tile = map.Tile;
-				string mapName = map.info.parent.LabelShortCap;
-				Predicate<int> hostileFinder = (int t) => Find.World.worldObjects.ObjectsAt(t).Select(wo => wo.Faction).Any(f => f.HostileTo(Faction.OfPlayer));
-				if (GenWorldClosest.TryFindClosestTile(tile, hostileFinder, out int foundTile, int.MaxValue, false))
+				float delayDays = DelayDays.DelayRaidDays(map);
+				if (delayDays > 0)
 				{
-					WorldPath path = Find.WorldPathFinder.FindPath(tile, foundTile, null);
-					float cost = path.TotalCost;
-					path.ReleaseToPool();
-
-					cost /= 40000;  //Cost to days-ish
-
-					//TODO: store this addedDays
-					float addedDays = AddedDays(cost);
 					if (Settings.Get().logResults)
 					{
 						string date = GenDate.QuadrumDateStringAt(GenTicks.TicksGame, 0);
-						Verse.Log.Message(String.Format("On {0}, Safely Hidden Away delayed threats to {1} by {2:0.0} days.", date, mapName, addedDays));
+						Verse.Log.Message(String.Format("On {0}, Safely Hidden Away delayed threats to {1} by {2:0.0} days.", date, map.info.parent.LabelShortCap, delayDays));
 					}
 
 					FieldInfo lastThreatBigTickInfo = AccessTools.Field(typeof(StoryState), "lastThreatBigTick");
-					int last = ((int)lastThreatBigTickInfo.GetValue(__instance)) + ((int)(addedDays * GenDate.TicksPerDay));
+					int last = ((int)lastThreatBigTickInfo.GetValue(__instance)) + ((int)(delayDays * GenDate.TicksPerDay));
 
 					lastThreatBigTickInfo.SetValue(__instance, last);
 				}
 			}
-		}
-
-		public static float AddedDays(float days)
-		{
-			//x-x/2^(.2x)^4 , .2 configurable
-			double numerator = days;
-			numerator *= Settings.Get().distanceFactor; //*.2 x
-			numerator *= numerator;
-			numerator *= numerator;//^4
-			return Settings.Get().threatDiminshingFactor * (float)(days - days / Math.Pow(2, numerator));
 		}
 
 		//StoryState
