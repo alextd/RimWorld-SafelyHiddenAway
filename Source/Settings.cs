@@ -14,7 +14,7 @@ namespace Safely_Hidden_Away
 		//TODO: save per map
 		public bool logResults;
 		public float distanceFactor = 0.2f;
-		public float threatDiminishingFactor = 2.0f;
+		public float visitDiminishingFactor = 2.0f;
 		public float wealthLimit = 200000;
 		public float wealthMax = 600000;
 		public float wealthFactor = 1f;
@@ -36,11 +36,11 @@ namespace Safely_Hidden_Away
 			options.Begin(rect2);
 			TextAnchor anchor = Text.Anchor;
 
-			options.Label("How quickly remoteness delays threats");
+			options.Label("How quickly remoteness delays threats and visitors");
 			distanceFactor = options.Slider(distanceFactor, .05f, .5f);
 
-			options.Label("How much remoteness delays theats: " + String.Format("{0:0.0}x", threatDiminishingFactor));
-			threatDiminishingFactor = options.Slider(threatDiminishingFactor, 0.1f, 5);
+			options.Label("How much remoteness delays theats and visitors: " + String.Format("{0:0.0}x", visitDiminishingFactor));
+			visitDiminishingFactor = options.Slider(visitDiminishingFactor, 0.1f, 5);
 
 			int totalDays = 10;
 			Rect graphLine = options.GetRect(Text.LineHeight * 12);
@@ -57,7 +57,7 @@ namespace Safely_Hidden_Away
 
 				
 				int lastThreatTick = (int)lastThreatBigTickInfo.GetValue(map.storyState);
-				options.Label(map.info.parent.LabelShortCap);
+				options.Label("For map: " + map.info.parent.LabelShortCap);
 				options.Label("Big Threats delayed until at least " + lastThreatTick);
 
 				float days = GenDate.TicksToDays(lastThreatTick - gameTicks);
@@ -71,6 +71,7 @@ namespace Safely_Hidden_Away
 				}
 
 				options.Label(String.Format("Threat will be delayed by {0:0.0} days", DelayDays.DelayRaidDays(map)));
+				options.Label(String.Format("Guests will be delayed by {0:0.0} days", DelayDays.DelayAllyDays(map)));
 			}
 
 			options.NewColumn();
@@ -100,7 +101,7 @@ namespace Safely_Hidden_Away
 		{
 			Scribe_Values.Look(ref logResults, "logResults", true);
 			Scribe_Values.Look(ref distanceFactor, "distanceFactor", 0.2f);
-			Scribe_Values.Look(ref threatDiminishingFactor, "threatDiminshingFactor", 2.0f);
+			Scribe_Values.Look(ref visitDiminishingFactor, "threatDiminshingFactor", 2.0f);
 
 			Scribe_Values.Look(ref wealthLimit, "wealthLimit", 200000);
 			Scribe_Values.Look(ref wealthMax, "wealthMax", 600000);

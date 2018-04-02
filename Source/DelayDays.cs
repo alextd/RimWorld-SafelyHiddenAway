@@ -12,11 +12,13 @@ namespace Safely_Hidden_Away
 {
 	class DelayDays
 	{
-		public static float DelayRaidDays(Map map)
+		public static float DelayAllyDays(Map map) => DaysTo(map, f => !f.IsPlayer && !f.HostileTo(Faction.OfPlayer));
+		public static float DelayRaidDays(Map map) => DaysTo(map, f => f.HostileTo(Faction.OfPlayer));
+		public static float DaysTo(Map map, Func<Faction, bool> predicate)
 		{
 			int tile = map.Tile;
-			Predicate<int> hostileFinder = (int t) => Find.World.worldObjects.ObjectsAt(t).Select(wo => wo.Faction).Any(f => f.HostileTo(Faction.OfPlayer));
-			if (GenWorldClosest.TryFindClosestTile(tile, hostileFinder, out int foundTile, int.MaxValue, false))
+			Predicate<int> validator = (int t) => Find.World.worldObjects.ObjectsAt(t).Select(wo => wo.Faction).Any(predicate);
+			if (GenWorldClosest.TryFindClosestTile(tile, validator, out int foundTile, int.MaxValue, false))
 			{
 				WorldPath path = Find.WorldPathFinder.FindPath(tile, foundTile, null);
 				float cost = path.TotalCost;
@@ -37,7 +39,7 @@ namespace Safely_Hidden_Away
 			calc *= Settings.Get().distanceFactor; //*.2 x
 			calc *= calc;
 			calc *= calc;//^4
-			return Settings.Get().threatDiminishingFactor * (float)(daysTravel - daysTravel / Math.Pow(2, calc));
+			return Settings.Get().visitDiminishingFactor * (float)(daysTravel - daysTravel / Math.Pow(2, calc));
 		}
 
 		public static float WealthReduction(float w)

@@ -19,7 +19,7 @@ namespace Safely_Hidden_Away
 			harmony.PatchAll(Assembly.GetExecutingAssembly());
 
 			harmony.Patch(AccessTools.Property(typeof(StoryState), nameof(StoryState.LastThreatBigTick)).GetGetMethod(false),
-				new HarmonyMethod(typeof(ThreatCycleDampener), nameof(ThreatCycleDampener.LastThreatBigTickPrefix)), null);
+				new HarmonyMethod(typeof(CycleDampener), nameof(CycleDampener.LastThreatBigTickPrefix)), null);
 		}
 
 		public override void DoSettingsWindowContents(Rect inRect)

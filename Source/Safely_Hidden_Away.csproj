@@ -57,14 +57,7 @@
     <None Include="..\Patches\**" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DebugLog.cs" />
-    <Compile Include="DelayDays.cs" />
-    <Compile Include="Safely_Hidden_Away.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="ThreatCycleDampener.cs" />
-    <Compile Include="Utilities\DrawGraph.cs" />
-    <Compile Include="VistorDelayer.cs" />
+    <Compile Include="**\*.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
