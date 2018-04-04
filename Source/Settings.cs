@@ -29,68 +29,68 @@ namespace Safely_Hidden_Away
 		{
 			var options = new Listing_Standard();
 			
-			Widgets.CheckboxLabeled(wrect.TopPartPixels(Text.LineHeight), "Write to Debug Log how many days of delay were added", ref logResults);
+			Widgets.CheckboxLabeled(wrect.TopPartPixels(Text.LineHeight), "WriteLogs".Translate(), ref logResults);
 
 			Rect rect2 = wrect;	rect2.y += Text.LineHeight; rect2.height -= Text.LineHeight;
 			options.ColumnWidth = (rect2.width - Listing.ColumnSpacing) / 2;
 			options.Begin(rect2);
 			TextAnchor anchor = Text.Anchor;
 
-			options.Label("How quickly remoteness delays threats and visitors");
+			options.Label("SettingRemotenessSpeed".Translate());
 			distanceFactor = options.Slider(distanceFactor, .05f, .5f);
 
-			options.Label("How much remoteness delays theats and visitors: " + String.Format("{0:0.0}x", visitDiminishingFactor));
+			options.Label("SettingRemotenessFactor".Translate() + String.Format("{0:0.0}x", visitDiminishingFactor));
 			visitDiminishingFactor = options.Slider(visitDiminishingFactor, 0.1f, 5);
 
 			int totalDays = 10;
 			Rect graphLine = options.GetRect(Text.LineHeight * 12);
 			Rect graphRect = graphLine.LeftPartPixels(graphLine.height);
-			TDWidgets.DrawGraph(graphRect, "Days travel to nearest hostile base", "Days added between threats", "{0:0}", "{0:0}", 0, totalDays, DelayDays.AddedDays, null, null, 5);
+			TDWidgets.DrawGraph(graphRect, "DaysTravel".Translate(), "DaysAdded".Translate(), "{0:0}", "{0:0}", 0, totalDays, DelayDays.AddedDays, null, null, 5);
 
 			Map map = Find.VisibleMap;
 			if (map != null && (Prefs.DevMode || HarmonyInstance.DEBUG)) //That's one roundabout way to check DEBUG
 			{
 				int gameTicks = GenTicks.TicksGame;
-				options.Label("Game Ticks : " + gameTicks);
+				options.Label("GameTicks".Translate() + gameTicks);
 
 				FieldInfo lastThreatBigTickInfo = AccessTools.Field(typeof(StoryState), "lastThreatBigTick");
 
 				
 				int lastThreatTick = (int)lastThreatBigTickInfo.GetValue(map.storyState);
-				options.Label("For map: " + map.info.parent.LabelShortCap);
-				options.Label("Big Threats delayed until at least " + lastThreatTick);
+				options.Label("ForMap".Translate() + map.info.parent.LabelShortCap);
+				options.Label("BigThreatsDelayed".Translate() + lastThreatTick);
 
 				float days = GenDate.TicksToDays(lastThreatTick - gameTicks);
 				if (days >= 0)
 				{
 					options.Label("(" + days + " days in future)");
 				}
-				if (options.ButtonText("Reset To NOW"))
+				if (options.ButtonText("ResetToNOW".Translate()))
 				{
 					lastThreatBigTickInfo.SetValue(map.StoryState, GenTicks.TicksGame);
 				}
 
-				options.Label(String.Format("Threat will be delayed by {0:0.0} days", DelayDays.DelayRaidDays(map)));
-				options.Label(String.Format("Guests will be delayed by {0:0.0} days", DelayDays.DelayAllyDays(map)));
+				options.Label(String.Format("ThreatWillDelay".Translate(), DelayDays.DelayRaidDays(map)));
+				options.Label(String.Format("GuestWillDelay".Translate(), DelayDays.DelayAllyDays(map)));
 			}
 
 			options.NewColumn();
 
-			options.Label(String.Format("Minimum wealth to start negating delay: {0:0}", wealthLimit));
+			options.Label(String.Format("SettingMinimumWealth".Translate(), wealthLimit));
 			wealthLimit = options.Slider(wealthLimit, 1, 1000000);
 
-			options.Label(String.Format("Wealth of maximum negation: {0:0}", wealthMax));
+			options.Label(String.Format("SettingMaximumWealth".Translate(), wealthMax));
 			wealthMax = options.Slider(wealthMax, 1, 1000000);
 
-			options.Label(String.Format("How much wealth can negate the delay: {0:P}", wealthFactor));
+			options.Label(String.Format("SettingWealthFactor".Translate(), wealthFactor));
 			wealthFactor = options.Slider(wealthFactor, 0f, 1f);
 
-			options.Label("~Curviness~ factor");
+			options.Label("SettingCurvinessFactor".Translate());
 			wealthCurvy = options.Slider(wealthCurvy, 0f, 50f);
 
 			graphLine = options.GetRect(Text.LineHeight * 16);
 			graphRect = graphLine.LeftPartPixels(graphLine.height);
-			TDWidgets.DrawGraph(graphRect, "Colony Wealth", "Percent Delay reduced", "{0:0}", "{0:P0}", 0, 1000000, DelayDays.WealthReduction, 0, 1f);
+			TDWidgets.DrawGraph(graphRect, "ColonyWealth".Translate(), "PercentDelayReduced".Translate(), "{0:0}", "{0:P0}", 0, 1000000, DelayDays.WealthReduction, 0, 1f);
 
 			Text.Anchor = anchor;
 			options.End();
