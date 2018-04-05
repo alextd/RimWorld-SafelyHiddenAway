@@ -13,8 +13,10 @@ namespace Safely_Hidden_Away
 	{
 		//TODO: save per map
 		public bool logResults;
+		public float islandAddedDays = 5.0f;
 		public float distanceFactor = 0.2f;
 		public float visitDiminishingFactor = 2.0f;
+
 		public float wealthLimit = 200000;
 		public float wealthMax = 600000;
 		public float wealthFactor = 1f;
@@ -28,13 +30,12 @@ namespace Safely_Hidden_Away
 		public void DoWindowContents(Rect wrect)
 		{
 			var options = new Listing_Standard();
-			
-			Widgets.CheckboxLabeled(wrect.TopPartPixels(Text.LineHeight), "WriteLogs".Translate(), ref logResults);
-
-			Rect rect2 = wrect;	rect2.y += Text.LineHeight; rect2.height -= Text.LineHeight;
-			options.ColumnWidth = (rect2.width - Listing.ColumnSpacing) / 2;
-			options.Begin(rect2);
+			options.ColumnWidth = (wrect.width - Listing.ColumnSpacing) / 2;
+			options.Begin(wrect);
 			TextAnchor anchor = Text.Anchor;
+
+			options.Label("Added days for islands: " + String.Format("{0:0.0}", islandAddedDays));
+			islandAddedDays = options.Slider(islandAddedDays, 0f, 20f);
 
 			options.Label("SettingRemotenessSpeed".Translate());
 			distanceFactor = options.Slider(distanceFactor, .05f, .5f);
@@ -76,6 +77,8 @@ namespace Safely_Hidden_Away
 
 			options.NewColumn();
 
+			options.CheckboxLabeled("WriteLogs".Translate(), ref logResults);
+
 			options.Label(String.Format("SettingMinimumWealth".Translate(), wealthLimit));
 			wealthLimit = options.Slider(wealthLimit, 1, 1000000);
 
@@ -100,6 +103,7 @@ namespace Safely_Hidden_Away
 		public override void ExposeData()
 		{
 			Scribe_Values.Look(ref logResults, "logResults", true);
+			Scribe_Values.Look(ref islandAddedDays, "islandAddedDays", 5f);
 			Scribe_Values.Look(ref distanceFactor, "distanceFactor", 0.2f);
 			Scribe_Values.Look(ref visitDiminishingFactor, "threatDiminshingFactor", 2.0f);
 

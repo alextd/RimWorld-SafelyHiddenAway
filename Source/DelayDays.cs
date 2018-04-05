@@ -21,18 +21,63 @@ namespace Safely_Hidden_Away
 				(wo is Settlement || wo is Site s && s.parts.Contains(SitePartDefOf.Outpost)) 
 				&& wo.Faction != null && factionValidator(wo.Faction) ;
 			Predicate<int> validator = (int t) => Find.World.worldObjects.ObjectsAt(t).Any(woValidator);
-			if (GenWorldClosest.TryFindClosestTile(tile, validator, out int foundTile, int.MaxValue, false))
+
+			Predicate<int> waterValidator = (int t) => Find.World.grid[t].WaterCovered;
+
+			//bool factionBase = false, water = false; 
+			int foundTile;
+			if (!TryFindClosestTile(tile, t => !Find.World.Impassable(t), validator, out foundTile))
+				TryFindClosestTile(tile, t => !Find.World.Impassable(t) || waterValidator(t), waterValidator, out foundTile);
+			
+			Log.Message("Closest tile to " + map + " is " + foundTile + ":" + Find.World.grid[foundTile]);
+			WorldPath path = Find.WorldPathFinder.FindPath(tile, foundTile, null);
+			float cost = 0;
+			if (path.Found)
 			{
-				WorldPath path = Find.WorldPathFinder.FindPath(tile, foundTile, null);
-				float cost = path.TotalCost;
+				cost = path.TotalCost;
+				Log.Message("Path cost is " + cost);
 				path.ReleaseToPool();
-
-				cost /= 40000;  //Cost to days-ish
-
-				float wealth = map.wealthWatcher.WealthTotal;
-				return AddedDays(cost) * WealthReduction(wealth);
 			}
-			return 0;
+			else
+			{
+				List<int> neighborTiles = new List<int>();
+				Find.World.grid.GetTileNeighbors(foundTile, neighborTiles);
+				float bestCost = float.MaxValue;
+				foreach(int nTile in neighborTiles)
+				{
+					Log.Message("Looking at neighbor tile " + nTile + ":" + Find.World.grid[nTile]);
+					path = Find.WorldPathFinder.FindPath(tile, nTile, null);
+					if (path.Found)
+						bestCost = Math.Min(bestCost, path.TotalCost);
+					Log.Message("best cost is " + bestCost);
+					path.ReleaseToPool();
+				}
+				if (bestCost == float.MaxValue) bestCost = 0;//paranoid?
+				cost = bestCost + Settings.Get().islandAddedDays * 40000;
+				Log.Message("cost after added island days: " + cost);
+			}
+
+			cost /= 40000;  //Cost to days-ish
+
+			float wealth = map.wealthWatcher.WealthTotal;
+			return AddedDays(cost) * WealthReduction(wealth);
+		}
+
+
+		public static bool TryFindClosestTile(int rootTile, Predicate<int> searchThrough, Predicate<int> predicate, out int foundTile, int maxTilesToScan = 2147483647)
+		{
+			int foundTileLocal = -1;
+			Find.WorldFloodFiller.FloodFill(rootTile, searchThrough, delegate (int t)
+			{
+				bool flag = predicate(t);
+				if (flag)
+				{
+					foundTileLocal = t;
+				}
+				return flag;
+			}, maxTilesToScan, null);
+			foundTile = foundTileLocal;
+			return foundTileLocal >= 0;
 		}
 
 		public static float AddedDays(float daysTravel)
