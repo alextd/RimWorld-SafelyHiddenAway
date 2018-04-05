@@ -34,7 +34,7 @@ namespace Safely_Hidden_Away
 			options.Begin(wrect);
 			TextAnchor anchor = Text.Anchor;
 
-			options.Label("Extra travel days for islands: " + String.Format("{0:0.0}", islandAddedDays));
+			options.Label("SettingIslandDays".Translate() + String.Format("{0:0.0}", islandAddedDays));
 			islandAddedDays = options.Slider(islandAddedDays, 0f, 20f);
 
 			options.Label("SettingRemotenessSpeed".Translate());
