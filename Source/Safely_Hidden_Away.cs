@@ -30,7 +30,7 @@ namespace Safely_Hidden_Away
 
 		public override string SettingsCategory()
 		{
-			return "SafelyHiddenAway".Translate();
+			return "TD.SafelyHiddenAway".Translate();
 		}
 	}
 }
