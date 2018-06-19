@@ -25,8 +25,8 @@ namespace Safely_Hidden_Away
 
 			if (qi.parms.target is Map map)
 			{
-				bool ally = qi.def.category == IncidentCategory.AllyArrival;
-				bool raid = qi.def.category == IncidentCategory.ThreatBig || qi.def.category == IncidentCategory.RaidBeacon;
+				bool ally = qi.def.category == IncidentCategoryDefOf.FactionArrival;
+				bool raid = qi.def.category == IncidentCategoryDefOf.ThreatBig || qi.def.category == IncidentCategoryDefOf.RaidBeacon;
 				if (ally || raid)
 				{
 					float delayDays = ally ? DelayDays.DelayAllyDays(map) : DelayDays.DelayRaidDays(map);

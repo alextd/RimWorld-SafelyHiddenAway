@@ -48,7 +48,7 @@ namespace Safely_Hidden_Away
 			Rect graphRect = graphLine.LeftPartPixels(graphLine.height);
 			TDWidgets.DrawGraph(graphRect, "TD.DaysTravel".Translate(), "TD.DaysAdded".Translate(), "{0:0}", "{0:0}", 0, totalDays, DelayDays.AddedDays, null, null, 5);
 
-			Map map = Find.VisibleMap;
+			Map map = Find.CurrentMap;
 			if (map != null && (Prefs.DevMode || HarmonyInstance.DEBUG)) //That's one roundabout way to check DEBUG
 			{
 				int gameTicks = GenTicks.TicksGame;

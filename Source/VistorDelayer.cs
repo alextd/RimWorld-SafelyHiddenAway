@@ -12,7 +12,7 @@ namespace Safely_Hidden_Away
 	{
 		static VistorDelayer()
 		{
-			foreach(IncidentDef idef in DefDatabase<IncidentDef>.AllDefs.Where(id => id.category == IncidentCategory.AllyArrival))
+			foreach(IncidentDef idef in DefDatabase<IncidentDef>.AllDefs.Where(id => id.category == IncidentCategoryDefOf.FactionArrival))
 			{
 				if (idef.tags == null) idef.tags = new List<string>();
 				idef.tags.Add("VisitorDelayable");
