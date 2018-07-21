@@ -18,7 +18,7 @@ namespace Safely_Hidden_Away
 		{
 			int tile = map.Tile;
 			Func<WorldObject, bool> woValidator = (wo) => 
-				(wo is Settlement || wo is Site s && s.parts.Contains(SitePartDefOf.Outpost)) 
+				(wo is Settlement || wo is Site s && s.parts.Any(part => part.def == SitePartDefOf.Outpost)) 
 				&& wo.Faction != null && factionValidator(wo.Faction) ;
 			Predicate<int> validator = (int t) => Find.World.worldObjects.ObjectsAt(t).Any(woValidator);
 
