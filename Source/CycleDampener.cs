@@ -15,18 +15,18 @@ namespace Safely_Hidden_Away
 	class CycleDampener
 	{
 		//StoryState
-		public static void Postfix(StoryState __instance, FiringIncident qi)
+		public static void Postfix(StoryState __instance, FiringIncident fi)
 		{
 			FieldInfo targetInfo = AccessTools.Field(typeof(StoryState), "target");
-			if (qi.parms.forced || qi.parms.target != targetInfo.GetValue(__instance))
+			if (fi.parms.forced || fi.parms.target != targetInfo.GetValue(__instance))
 			{
 				return;
 			}
 
-			if (qi.parms.target is Map map)
+			if (fi.parms.target is Map map)
 			{
-				bool ally = qi.def.category == IncidentCategoryDefOf.FactionArrival;
-				bool raid = qi.def.category == IncidentCategoryDefOf.ThreatBig || qi.def.category == IncidentCategoryDefOf.RaidBeacon;
+				bool ally = fi.def.category == IncidentCategoryDefOf.FactionArrival;
+				bool raid = fi.def.category == IncidentCategoryDefOf.ThreatBig || fi.def.category == IncidentCategoryDefOf.RaidBeacon;
 				if (ally || raid)
 				{
 					float delayDays = ally ? DelayDays.DelayAllyDays(map) : DelayDays.DelayRaidDays(map);
@@ -35,7 +35,7 @@ namespace Safely_Hidden_Away
 
 					if (delayDays > 0)
 					{
-						__instance.lastFireTicks[qi.def] += (int)(delayDays * GenDate.TicksPerDay);
+						__instance.lastFireTicks[fi.def] += (int)(delayDays * GenDate.TicksPerDay);
 
 						if (Settings.Get().logResults)
 						{
