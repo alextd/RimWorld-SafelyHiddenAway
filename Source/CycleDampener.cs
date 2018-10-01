@@ -54,13 +54,15 @@ namespace Safely_Hidden_Away
 				}
 			}
 		}
+	}
 
-		//StoryState
+	[HarmonyPatch(typeof(StoryState), "LastThreatBigTick", MethodType.Getter)]
+	class CycleDampenerTick
+	{
 		//public int LastThreatBigTick
-		public static bool LastThreatBigTickPrefix(StoryState __instance, ref int __result)
+		public static bool Prefix(StoryState __instance, ref int __result)
 		{
-			FieldInfo lastThreatBigTickInfo = AccessTools.Field(typeof(StoryState), "lastThreatBigTick");
-			__result = (int)lastThreatBigTickInfo.GetValue(__instance);
+			__result = (int)AccessTools.Field(typeof(StoryState), "lastThreatBigTick").GetValue(__instance);
 			return false;
 		}
 	}
