@@ -16,7 +16,7 @@ namespace Safely_Hidden_Away
 			HarmonyInstance.DEBUG = true;
 #endif
 			HarmonyInstance harmony = HarmonyInstance.Create("uuugggg.rimworld.SafelyHiddenAway.main");
-			harmony.PatchAll(Assembly.GetExecutingAssembly());
+			harmony.PatchAll();
 		}
 
 		public override void DoSettingsWindowContents(Rect inRect)
