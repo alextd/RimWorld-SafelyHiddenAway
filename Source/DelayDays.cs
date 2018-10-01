@@ -29,13 +29,13 @@ namespace Safely_Hidden_Away
 			if (!TryFindClosestTile(tile, t => !Find.World.Impassable(t), validator, out foundTile))
 				TryFindClosestTile(tile, t => !Find.World.Impassable(t) || waterValidator(t), waterValidator, out foundTile);
 			
-			Log.Message("Closest tile to " + map + " is " + foundTile + ":" + Find.World.grid[foundTile]);
+			Log.Message($"Closest tile to {map} is {foundTile}:{Find.World.grid[foundTile]}");
 			WorldPath path = Find.WorldPathFinder.FindPath(tile, foundTile, null);
 			float cost = 0;
 			if (path.Found)
 			{
 				cost = path.TotalCost;
-				Log.Message("Path cost is " + cost);
+				Log.Message($"Path cost is {cost}");
 				path.ReleaseToPool();
 			}
 			else
@@ -45,16 +45,16 @@ namespace Safely_Hidden_Away
 				float bestCost = float.MaxValue;
 				foreach(int nTile in neighborTiles)
 				{
-					Log.Message("Looking at neighbor tile " + nTile + ":" + Find.World.grid[nTile]);
+					Log.Message($"Looking at neighbor tile {nTile}:{Find.World.grid[nTile]}");
 					path = Find.WorldPathFinder.FindPath(tile, nTile, null);
 					if (path.Found)
 						bestCost = Math.Min(bestCost, path.TotalCost);
-					Log.Message("best cost is " + bestCost);
+					Log.Message($"best cost is {bestCost}");
 					path.ReleaseToPool();
 				}
 				if (bestCost == float.MaxValue) bestCost = 0;//paranoid?
 				cost = bestCost + Settings.Get().islandAddedDays * 40000;
-				Log.Message("cost after added island days: " + cost);
+				Log.Message($"cost after added island days: {cost}");
 			}
 
 			cost /= 40000;  //Cost to days-ish

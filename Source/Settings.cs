@@ -64,7 +64,7 @@ namespace Safely_Hidden_Away
 				float days = GenDate.TicksToDays(lastThreatTick - gameTicks);
 				if (days >= 0)
 				{
-					options.Label("(" + days + " days in future)");
+					options.Label("({days} days in future)");
 				}
 				if (options.ButtonText("TD.ResetToNOW".Translate()))
 				{
