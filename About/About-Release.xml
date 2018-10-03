@@ -2,7 +2,7 @@
 <ModMetaData>
 	<name>Safely Hidden Away</name>
 	<author>Uuugggg</author>
-	<targetVersion>0.19.0</targetVersion>
+	<targetVersion>1.0.0</targetVersion>
 	<description>Bases that are in remote locations don't get raided as often.
 Configurable delay time. Check out that graph.
 
