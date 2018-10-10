@@ -15,10 +15,9 @@ namespace Safely_Hidden_Away
 	class CycleDampener
 	{
 		//StoryState
-		public static void Postfix(StoryState __instance, FiringIncident fi)
+		public static void Postfix(StoryState __instance, FiringIncident fi, IIncidentTarget ___target, ref int ___lastThreatBigTick)
 		{
-			FieldInfo targetInfo = AccessTools.Field(typeof(StoryState), "target");
-			if (fi.parms.forced || fi.parms.target != targetInfo.GetValue(__instance))
+			if (fi.parms.forced || fi.parms.target != ___target)
 			{
 				return;
 			}
@@ -45,10 +44,9 @@ namespace Safely_Hidden_Away
 
 						if (raid)
 						{
-							FieldInfo lastThreatBigTickInfo = AccessTools.Field(typeof(StoryState), "lastThreatBigTick");
-							int last = ((int)lastThreatBigTickInfo.GetValue(__instance)) + ((int)(delayDays * GenDate.TicksPerDay));
+							int last = ___lastThreatBigTick + ((int)(delayDays * GenDate.TicksPerDay));
 
-							lastThreatBigTickInfo.SetValue(__instance, last);
+							___lastThreatBigTick = last;
 						}
 					}
 				}
@@ -60,9 +58,9 @@ namespace Safely_Hidden_Away
 	class CycleDampenerTick
 	{
 		//public int LastThreatBigTick
-		public static bool Prefix(StoryState __instance, ref int __result)
+		public static bool Prefix(StoryState __instance, ref int __result, int ___lastThreatBigTick)
 		{
-			__result = (int)AccessTools.Field(typeof(StoryState), "lastThreatBigTick").GetValue(__instance);
+			__result = ___lastThreatBigTick;
 			return false;
 		}
 	}
