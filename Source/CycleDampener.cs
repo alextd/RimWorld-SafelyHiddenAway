@@ -39,7 +39,7 @@ namespace Safely_Hidden_Away
 						if (Settings.Get().logResults)
 						{
 							string date = GenDate.QuadrumDateStringAt(GenTicks.TicksGame, 0);
-							Verse.Log.Message(String.Format($"On {0}, Safely Hidden Away delayed {1} to {2} by {3:0.0} days.", date, eventDesc, map.info.parent.LabelShortCap, delayDays));
+							Verse.Log.Message($"On {date}, Safely Hidden Away delayed {eventDesc} to {map.info.parent.LabelShortCap} by {delayDays:0.0} days.");
 						}
 
 						if (raid)
