@@ -4,7 +4,7 @@ using System.Reflection;
 using UnityEngine;
 using Verse;
 using RimWorld;
-using Harmony;
+using HarmonyLib;
 using TD.Utilities;
 
 namespace Safely_Hidden_Away

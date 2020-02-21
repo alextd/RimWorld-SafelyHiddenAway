@@ -2,7 +2,7 @@
 using System.Linq;
 using Verse;
 using UnityEngine;
-using Harmony;
+using HarmonyLib;
 using RimWorld;
 
 namespace Safely_Hidden_Away
@@ -14,9 +14,9 @@ namespace Safely_Hidden_Away
 			// initialize settings
 			GetSettings<Settings>();
 #if DEBUG
-			HarmonyInstance.DEBUG = true;
+			Harmony.DEBUG = true;
 #endif
-			HarmonyInstance harmony = HarmonyInstance.Create("uuugggg.rimworld.SafelyHiddenAway.main");
+			Harmony harmony = new Harmony("uuugggg.rimworld.SafelyHiddenAway.main");
 			
 			//Turn off DefOf warning since harmony patches trigger it.
 			MethodInfo DefOfHelperInfo = AccessTools.Method(typeof(DefOfHelper), "EnsureInitializedInCtor");
