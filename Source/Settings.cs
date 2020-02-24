@@ -49,7 +49,7 @@ namespace Safely_Hidden_Away
 			TDWidgets.DrawGraph(graphRect, "TD.DaysTravel".Translate(), "TD.DaysAdded".Translate(), "{0:0}", "{0:0}", 0, totalDays, DelayDays.AddedDays, null, null, 5);
 
 			Map map = Find.CurrentMap;
-			if (map != null && (Prefs.DevMode || HarmonyInstance.DEBUG)) //That's one roundabout way to check DEBUG
+			if (map != null && (Prefs.DevMode || Harmony.DEBUG)) //That's one roundabout way to check DEBUG
 			{
 				int gameTicks = GenTicks.TicksGame;
 				options.Label("TD.GameTicks".Translate() + gameTicks);

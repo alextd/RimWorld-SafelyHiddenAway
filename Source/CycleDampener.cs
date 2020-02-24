@@ -25,7 +25,7 @@ namespace Safely_Hidden_Away
 			if (fi.parms.target is Map map)
 			{
 				bool ally = fi.def.category == IncidentCategoryDefOf.FactionArrival;
-				bool raid = fi.def.category == IncidentCategoryDefOf.ThreatBig || fi.def.category == IncidentCategoryDefOf.RaidBeacon;
+				bool raid = fi.def.category == IncidentCategoryDefOf.ThreatBig;
 				if (ally || raid)
 				{
 					float delayDays = ally ? DelayDays.DelayAllyDays(map) : DelayDays.DelayRaidDays(map);
