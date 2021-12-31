@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	
+	<TD.SafelyHiddenAway>Safely Hidden Away</TD.SafelyHiddenAway>
+	<TD.WriteLogs>Escribe en el registro de depuración cuántos días de retraso se han añadido</TD.WriteLogs>
+	<TD.SettingRemotenessSpeed>La rapidez con que la lejanía retrasa las amenazas y los visitantes</TD.SettingRemotenessSpeed>
+	<TD.SettingRemotenessFactor>La lejanía retrasa las amenazas y los visitantes: </TD.SettingRemotenessFactor>
+	<TD.DaysTravel>Días de viaje hasta la base hostil más cercana</TD.DaysTravel>
+	<TD.DaysAdded>Días añadidos entre amenazas</TD.DaysAdded>
+	<TD.GameTicks>Game Ticks : </TD.GameTicks>
+	<TD.ForMap>Para el mapa: </TD.ForMap>
+	<TD.BigThreatsDelayed>Las grandes amenazas se retrasan al menos hasta </TD.BigThreatsDelayed>
+	<TD.ResetToNOW>Restablecer a AHORA</TD.ResetToNOW>
+	<TD.ThreatWillDelay>La amenaza se retrasará {0:0.0} días</TD.ThreatWillDelay>
+	<TD.GuestWillDelay>Los huéspedes y visitantes se retrasarán {0:0.0} días</TD.GuestWillDelay>
+	<TD.SettingMinimumWealth>Riqueza mínima para empezar a negar el retraso: {0:0}</TD.SettingMinimumWealth>
+	<TD.SettingMaximumWealth>Riqueza de máxima negación: {0:0}</TD.SettingMaximumWealth>
+	<TD.SettingWealthFactor>Cuánta riqueza puede anular el retraso: {0:P}</TD.SettingWealthFactor>
+	<TD.SettingCurvinessFactor>Factor de ~curvatura~</TD.SettingCurvinessFactor>
+	<TD.ColonyWealth>Riqueza de la colonia</TD.ColonyWealth>
+	<TD.PercentDelayReduced>Porcentaje de retraso reducido</TD.PercentDelayReduced>
+	<TD.SettingIslandDays>Días de viaje extra para las islas: </TD.SettingIslandDays>
+	<TD.XDaysInFuture>({days} días en el futuro)</TD.XDaysInFuture>
+	
+</LanguageData>
