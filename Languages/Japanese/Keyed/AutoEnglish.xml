@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	
+	<TD.SafelyHiddenAway>Safely Hidden Away</TD.SafelyHiddenAway>
+	<TD.WriteLogs>追加された遅延日数をデバッグログに書き込む</TD.WriteLogs>
+	<TD.SettingRemotenessSpeed>脅威と訪問者の遅延速度の度合い</TD.SettingRemotenessSpeed>
+	<TD.SettingRemotenessFactor>遠さが脅威と訪問者をどのくらい遅らせるか: </TD.SettingRemotenessFactor>
+	<TD.DaysTravel>最寄りの敵対基地への移動日数</TD.DaysTravel>
+	<TD.DaysAdded>脅威イベントの間に追加される日数</TD.DaysAdded>
+	<TD.GameTicks>Game Ticks : </TD.GameTicks>
+	<TD.ForMap>For map: </TD.ForMap>
+	<TD.BigThreatsDelayed>大きな脅威は少なくとも以下の時期まで延期 </TD.BigThreatsDelayed>
+	<TD.ResetToNOW>Reset To NOW</TD.ResetToNOW>
+	<TD.ThreatWillDelay>脅威は {0:0.0} 日遅れます</TD.ThreatWillDelay>
+	<TD.GuestWillDelay>訪問者は {0:0.0} 日遅れます</TD.GuestWillDelay>
+	<TD.SettingMinimumWealth>遅延低減が開始する最小富裕度: {0:0}</TD.SettingMinimumWealth>
+	<TD.SettingMaximumWealth>最大富裕度: {0:0}</TD.SettingMaximumWealth>
+	<TD.SettingWealthFactor>富裕度がどの程度遅延を打ち消すか: {0:P}</TD.SettingWealthFactor>
+	<TD.SettingCurvinessFactor>グラフの曲率</TD.SettingCurvinessFactor>
+	<TD.ColonyWealth>コロニーの富</TD.ColonyWealth>
+	<TD.PercentDelayReduced>遅延低減率</TD.PercentDelayReduced>
+	<TD.SettingIslandDays>島嶼部への渡航の追加日数: </TD.SettingIslandDays>
+	<TD.XDaysInFuture>({days} 日後)</TD.XDaysInFuture>
+	
+</LanguageData>
