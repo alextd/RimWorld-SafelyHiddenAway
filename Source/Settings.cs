@@ -9,7 +9,7 @@ using TD.Utilities;
 
 namespace Safely_Hidden_Away
 {
-	class Settings : ModSettings
+	public class Settings : ModSettings
 	{
 		//TODO: save per map
 		public bool logResults;
@@ -21,11 +21,6 @@ namespace Safely_Hidden_Away
 		public float wealthMax = 600000;
 		public float wealthFactor = 1f;
 		public float wealthCurvy = 10f;
-
-		public static Settings Get()
-		{
-			return LoadedModManager.GetMod<Safely_Hidden_Away.Mod>().GetSettings<Settings>();
-		}
 
 		public void DoWindowContents(Rect wrect)
 		{

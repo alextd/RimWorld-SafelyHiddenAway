@@ -9,10 +9,11 @@ namespace Safely_Hidden_Away
 {
 	public class Mod : Verse.Mod
 	{
+		public static Settings settings;
 		public Mod(ModContentPack content) : base(content)
 		{
 			// initialize settings
-			GetSettings<Settings>();
+			settings = GetSettings<Settings>();
 #if DEBUG
 			Harmony.DEBUG = true;
 #endif
@@ -24,7 +25,7 @@ namespace Safely_Hidden_Away
 		public override void DoSettingsWindowContents(Rect inRect)
 		{
 			base.DoSettingsWindowContents(inRect);
-			GetSettings<Settings>().DoWindowContents(inRect);
+			settings.DoWindowContents(inRect);
 		}
 
 		public override string SettingsCategory()

@@ -36,7 +36,7 @@ namespace Safely_Hidden_Away
 					{
 						__instance.lastFireTicks[fi.def] += (int)(delayDays * GenDate.TicksPerDay);
 
-						if (Settings.Get().logResults)
+						if (Mod.settings.logResults)
 						{
 							string date = GenDate.QuadrumDateStringAt(GenTicks.TicksGame, 0);
 							Verse.Log.Message($"On {date}, Safely Hidden Away delayed {eventDesc} to {map.info.parent.LabelShortCap} by {delayDays:0.0} days.");

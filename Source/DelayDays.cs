@@ -53,7 +53,7 @@ namespace Safely_Hidden_Away
 					path.ReleaseToPool();
 				}
 				if (bestCost == float.MaxValue) bestCost = 0;//paranoid?
-				cost = bestCost + Settings.Get().islandAddedDays * 40000;
+				cost = bestCost + Mod.settings.islandAddedDays * 40000;
 				Log.Message($"cost after added island days: {cost}");
 			}
 
@@ -84,22 +84,22 @@ namespace Safely_Hidden_Away
 		{
 			//x-x/2^(.2x)^4 , .2 configurable
 			double calc = daysTravel;
-			calc *= Settings.Get().distanceFactor; //*.2 x
+			calc *= Mod.settings.distanceFactor; //*.2 x
 			calc *= calc;
 			calc *= calc;//^4
-			return Settings.Get().visitDiminishingFactor * (float)(daysTravel - daysTravel / Math.Pow(2, calc));
+			return Mod.settings.visitDiminishingFactor * (float)(daysTravel - daysTravel / Math.Pow(2, calc));
 		}
 
 		public static float WealthReduction(float w)
 		{
-			double l = Settings.Get().wealthLimit;
+			double l = Mod.settings.wealthLimit;
 			if (w <= l) return 1.0f;
 
-			double m = Settings.Get().wealthMax;
-			float f = Settings.Get().wealthFactor;
+			double m = Mod.settings.wealthMax;
+			float f = Mod.settings.wealthFactor;
 			if (w >= m) return 1 - f;
 
-			double q = Settings.Get().wealthCurvy;
+			double q = Mod.settings.wealthCurvy;
 
 			//don't ask what all this does.
 			double h = (m - l) / 2;  //halfway point
