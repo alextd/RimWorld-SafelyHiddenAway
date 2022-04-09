@@ -22,6 +22,9 @@ namespace Safely_Hidden_Away
 		public float wealthFactor = 1f;
 		public float wealthCurvy = 10f;
 
+		public static AccessTools.FieldRef<StoryState, int> lastThreatBigTick =
+			AccessTools.FieldRefAccess<StoryState, int>("lastThreatBigTick");
+
 		public void DoWindowContents(Rect wrect)
 		{
 			var options = new Listing_Standard();
@@ -49,21 +52,18 @@ namespace Safely_Hidden_Away
 				int gameTicks = GenTicks.TicksGame;
 				options.Label("TD.GameTicks".Translate() + gameTicks);
 
-				FieldInfo lastThreatBigTickInfo = AccessTools.Field(typeof(StoryState), "lastThreatBigTick");
-
-				
-				int lastThreatTick = (int)lastThreatBigTickInfo.GetValue(map.storyState);
+				int lastTick = lastThreatBigTick(map.storyState);
 				options.Label("TD.ForMap".Translate() + map.info.parent.LabelShortCap);
-				options.Label("TD.BigThreatsDelayed".Translate() + lastThreatTick);
+				options.Label("TD.BigThreatsDelayed".Translate() + lastTick);
 
-				float days = GenDate.TicksToDays(lastThreatTick - gameTicks);
+				float days = GenDate.TicksToDays(lastTick - gameTicks);
 				if (days >= 0)
 				{
-					options.Label("TD.XDaysInFuture".Translate());
+					options.Label("TD.XDaysInFuture".Translate(days));
 				}
 				if (options.ButtonText("TD.ResetToNOW".Translate()))
 				{
-					lastThreatBigTickInfo.SetValue(map.StoryState, GenTicks.TicksGame);
+					lastThreatBigTick(map.storyState) = GenTicks.TicksGame;
 				}
 
 				options.Label(String.Format("TD.ThreatWillDelay".Translate(), DelayDays.DelayRaidDays(map)));

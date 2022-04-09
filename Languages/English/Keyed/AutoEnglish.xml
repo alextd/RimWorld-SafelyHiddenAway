@@ -20,6 +20,6 @@
 	<TD.ColonyWealth>Colony Wealth</TD.ColonyWealth>
 	<TD.PercentDelayReduced>Percent Delay reduced</TD.PercentDelayReduced>
 	<TD.SettingIslandDays>Extra travel days for islands: </TD.SettingIslandDays>
-	<TD.XDaysInFuture>({days} days in future)</TD.XDaysInFuture>
+	<TD.XDaysInFuture>({0} days in future)</TD.XDaysInFuture>
 	
 </LanguageData>
