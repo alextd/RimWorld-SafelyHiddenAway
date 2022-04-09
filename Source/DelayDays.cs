@@ -29,13 +29,14 @@ namespace Safely_Hidden_Away
 			if (!TryFindClosestTile(tile, t => !Find.World.Impassable(t), validator, out foundTile))
 				TryFindClosestTile(tile, t => !Find.World.Impassable(t) || waterValidator(t), waterValidator, out foundTile);
 			
-			Log.Message($"Closest tile to {map} is {foundTile}:{Find.World.grid[foundTile]}");
+			//spammed in settings
+			//Log.Message($"Closest tile to {map} is {foundTile}:{Find.World.grid[foundTile]}");
 			WorldPath path = Find.WorldPathFinder.FindPath(tile, foundTile, null);
 			float cost = 0;
 			if (path.Found)
 			{
 				cost = path.TotalCost;
-				Log.Message($"Path cost is {cost}");
+				//Log.Message($"Path cost is {cost}");
 				path.ReleaseToPool();
 			}
 			else
