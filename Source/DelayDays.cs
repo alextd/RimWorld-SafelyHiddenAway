@@ -28,6 +28,11 @@ namespace Safely_Hidden_Away
 			int foundTile;
 			if (!TryFindClosestTile(tile, t => !Find.World.Impassable(t), validator, out foundTile))
 				TryFindClosestTile(tile, t => !Find.World.Impassable(t) || waterValidator(t), waterValidator, out foundTile);
+
+			if (foundTile < 0) // this can happen if the tile is completely encased by impassable mountains
+			{
+				return 10; // fallback to a fixed delay of 10 days
+			}
 			
 			//spammed in settings
 			//Log.Message($"Closest tile to {map} is {foundTile}:{Find.World.grid[foundTile]}");
