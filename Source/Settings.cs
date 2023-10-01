@@ -14,6 +14,7 @@ namespace Safely_Hidden_Away
 		//TODO: save per map
 		public bool logResults;
 		public float islandAddedDays = 5.0f;
+		public float isolatedMountainValleyDays = 10.0f;
 		public float distanceFactor = 0.2f;
 		public float visitDiminishingFactor = 2.0f;
 
@@ -25,15 +26,26 @@ namespace Safely_Hidden_Away
 		public static AccessTools.FieldRef<StoryState, int> lastThreatBigTick =
 			AccessTools.FieldRefAccess<StoryState, int>("lastThreatBigTick");
 
+		private Vector2 scrollPos;
+		private float scrollHeight;
 		public void DoWindowContents(Rect wrect)
 		{
-			var options = new Listing_Standard();
-			options.ColumnWidth = (wrect.width - Listing.ColumnSpacing) / 2;
-			options.Begin(wrect);
-			TextAnchor anchor = Text.Anchor;
+			Rect viewRect = wrect.AtZero();
+			viewRect.height = scrollHeight;
+			viewRect.width -= 16;
+
+			Widgets.BeginScrollView(wrect, ref scrollPos, viewRect);
+
+
+			var options = new Listing_Standard() { maxOneColumn = true };
+			options.Begin(viewRect);
+			//TextAnchor anchor = Text.Anchor;
 
 			options.Label("TD.SettingIslandDays".Translate() + String.Format("{0:0.0}", islandAddedDays));
 			islandAddedDays = options.Slider(islandAddedDays, 0f, 20f);
+
+			options.Label("TD.SettingMountainDays".Translate() + String.Format("{0:0.0}", isolatedMountainValleyDays));
+			isolatedMountainValleyDays = options.Slider(isolatedMountainValleyDays, 0f, 30f);
 
 			options.Label("TD.SettingRemotenessSpeed".Translate());
 			distanceFactor = options.Slider(distanceFactor, .05f, .5f);
@@ -41,10 +53,10 @@ namespace Safely_Hidden_Away
 			options.Label("TD.SettingRemotenessFactor".Translate() + String.Format("{0:0.0}x", visitDiminishingFactor));
 			visitDiminishingFactor = options.Slider(visitDiminishingFactor, 0.1f, 5);
 
-			int totalDays = 10;
 			Rect graphLine = options.GetRect(Text.LineHeight * 12);
 			Rect graphRect = graphLine.LeftPartPixels(graphLine.height);
-			TDWidgets.DrawGraph(graphRect, "TD.DaysTravel".Translate(), "TD.DaysAdded".Translate(), "{0:0}", "{0:0}", 0, totalDays, DelayDays.AddedDays, null, null, 5);
+			
+			TDWidgets.DrawGraph(graphRect, "TD.DaysTravel".Translate(), "TD.DaysAdded".Translate(), "{0:0}", "{0:0}", 0, 10, DelayDays.AddedDays, null, null, 5);
 
 			Map map = Find.CurrentMap;
 			if (map != null && (Prefs.DevMode || Harmony.DEBUG)) //That's one roundabout way to check DEBUG
@@ -70,8 +82,6 @@ namespace Safely_Hidden_Away
 				options.Label(String.Format("TD.GuestWillDelay".Translate(), DelayDays.DelayAllyDays(map)));
 			}
 
-			options.NewColumn();
-
 			options.CheckboxLabeled("TD.WriteLogs".Translate(), ref logResults);
 
 			options.Label(String.Format("TD.SettingMinimumWealth".Translate(), wealthLimit));
@@ -86,12 +96,17 @@ namespace Safely_Hidden_Away
 			options.Label("TD.SettingCurvinessFactor".Translate());
 			wealthCurvy = options.Slider(wealthCurvy, 0f, 50f);
 
+			
 			graphLine = options.GetRect(Text.LineHeight * 16);
 			graphRect = graphLine.LeftPartPixels(graphLine.height);
 			TDWidgets.DrawGraph(graphRect, "TD.ColonyWealth".Translate(), "TD.PercentDelayReduced".Translate(), "{0:0}", "{0:P0}", 0, 1000000, DelayDays.WealthReduction, 0, 1f);
+			
+			// Text.Anchor = anchor;
 
-			Text.Anchor = anchor;
+			scrollHeight = options.CurHeight;
+			Log.Message($"{Event.current} : scrollHeight = {scrollHeight}");
 			options.End();
+			Widgets.EndScrollView();
 		}
 
 
@@ -99,6 +114,7 @@ namespace Safely_Hidden_Away
 		{
 			Scribe_Values.Look(ref logResults, "logResults", true);
 			Scribe_Values.Look(ref islandAddedDays, "islandAddedDays", 5f);
+			Scribe_Values.Look(ref isolatedMountainValleyDays, "isolatedMountainValleyDays", 10f);
 			Scribe_Values.Look(ref distanceFactor, "distanceFactor", 0.2f);
 			Scribe_Values.Look(ref visitDiminishingFactor, "threatDiminshingFactor", 2.0f);
 

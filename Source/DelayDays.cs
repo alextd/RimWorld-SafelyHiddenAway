@@ -14,6 +14,9 @@ namespace Safely_Hidden_Away
 	{
 		public static float DelayAllyDays(Map map) => DaysTo(map, f => !f.IsPlayer && !f.HostileTo(Faction.OfPlayer));
 		public static float DelayRaidDays(Map map) => DaysTo(map, f => f.HostileTo(Faction.OfPlayer));
+
+
+		private static List<int> neighborTiles = new List<int>();
 		public static float DaysTo(Map map, Func<Faction, bool> factionValidator)
 		{
 			int tile = map.Tile;
@@ -29,39 +32,45 @@ namespace Safely_Hidden_Away
 			if (!TryFindClosestTile(tile, t => !Find.World.Impassable(t), validator, out foundTile))
 				TryFindClosestTile(tile, t => !Find.World.Impassable(t) || waterValidator(t), waterValidator, out foundTile);
 			
-			//spammed in settings
-			//Log.Message($"Closest tile to {map} is {foundTile}:{Find.World.grid[foundTile]}");
-			WorldPath path = Find.WorldPathFinder.FindPath(tile, foundTile, null);
-			float cost = 0;
-			if (path.Found)
+			float daysTravel = 0;
+			if (foundTile < 0)
 			{
-				cost = path.TotalCost;
-				//Log.Message($"Path cost is {cost}");
-				path.ReleaseToPool();
+				// separated from all enemy outposts and water: we're isolated in a mountain valley
+				daysTravel = Mod.settings.isolatedMountainValleyDays;
 			}
 			else
 			{
-				List<int> neighborTiles = new List<int>();
-				Find.World.grid.GetTileNeighbors(foundTile, neighborTiles);
-				float bestCost = float.MaxValue;
-				foreach(int nTile in neighborTiles)
+				WorldPath path = Find.WorldPathFinder.FindPath(tile, foundTile, null);
+				if (path.Found)
 				{
-					Log.Message($"Looking at neighbor tile {nTile}:{Find.World.grid[nTile]}");
-					path = Find.WorldPathFinder.FindPath(tile, nTile, null);
-					if (path.Found)
-						bestCost = Math.Min(bestCost, path.TotalCost);
-					Log.Message($"best cost is {bestCost}");
+					daysTravel = path.TotalCost / 40000;  // Cost to days-ish
+					//Log.Message($"Path cost is {path.TotalCost}");
 					path.ReleaseToPool();
 				}
-				if (bestCost == float.MaxValue) bestCost = 0;//paranoid?
-				cost = bestCost + Mod.settings.islandAddedDays * 40000;
-				Log.Message($"cost after added island days: {cost}");
+				else
+				{
+					// Probably ended up in water, so find adjacent land
+					neighborTiles.Clear();
+					Find.World.grid.GetTileNeighbors(foundTile, neighborTiles);
+					float bestCost = float.MaxValue;
+					foreach (int nTile in neighborTiles)
+					{
+						Log.Message($"Looking at neighbor tile {nTile}:{Find.World.grid[nTile]}");
+						path = Find.WorldPathFinder.FindPath(tile, nTile, null);
+						if (path.Found)
+							bestCost = Math.Min(bestCost, path.TotalCost);
+						Log.Message($"best cost is {bestCost}");
+						path.ReleaseToPool();
+					}
+					if (bestCost == float.MaxValue) bestCost = 0;//paranoid?
+					daysTravel = bestCost / 40000 + Mod.settings.islandAddedDays;
+					Log.Message($"cost after added island days: {daysTravel}");
+				}
 			}
 
-			cost /= 40000;  //Cost to days-ish
 
 			float wealth = map.wealthWatcher.WealthTotal;
-			return AddedDays(cost) * WealthReduction(wealth);
+			return AddedDays(daysTravel) * WealthReduction(wealth);
 		}
 
 
