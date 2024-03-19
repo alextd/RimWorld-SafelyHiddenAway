@@ -10,6 +10,12 @@ using System.Reflection;
 
 namespace Safely_Hidden_Away
 {
+	[DefOf]
+	public static class IncidentCategoryDefOf
+	{
+		public static IncidentCategoryDef FactionArrival;
+		public static IncidentCategoryDef ThreatBig;
+	}
 	[HarmonyPatch(typeof(StoryState))]
 	[HarmonyPatch("Notify_IncidentFired")]
 	class CycleDampener

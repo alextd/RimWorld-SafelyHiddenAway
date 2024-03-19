@@ -10,6 +10,12 @@ using System.Reflection;
 
 namespace Safely_Hidden_Away
 {
+	[DefOf]
+	public static class SitePartDefOf
+	{
+		public static SitePartDef Outpost;
+	}
+
 	class DelayDays
 	{
 		public static float DelayAllyDays(Map map) => DaysTo(map, f => !f.IsPlayer && !f.HostileTo(Faction.OfPlayer));
